@@ -113,4 +113,21 @@ public class CalcControllerTest {
         Assert.assertEquals(5, calculationResponse.getResult());
     }
 
+    @SneakyThrows
+    @Test
+    public void calculateDivisionOnZeroFromFile() {
+        String requestName = "requests/request_for_division_on_zero.json";
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(checkNotNull(classLoader.getResource(requestName)).getFile());
+        OperationRequest operationRequest = objectMapper.readValue(file, OperationRequest.class);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/calc")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(operationRequest)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(result -> Assert.assertTrue(result.getResolvedException() instanceof ArithmeticException))
+                .andExpect(result -> Assert.assertEquals("/ by zero", result.getResolvedException().getMessage()))
+                .andReturn();
+    }
+
 }
