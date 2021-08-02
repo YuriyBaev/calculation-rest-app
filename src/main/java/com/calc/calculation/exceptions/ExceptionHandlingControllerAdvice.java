@@ -11,7 +11,7 @@ public class ExceptionHandlingControllerAdvice {
 
     @ExceptionHandler(ArithmeticException.class)
     public ResponseEntity<ErroneousResponse> handleArithmeticException(ArithmeticException arithmeticException) {
-        ErroneousResponse erroneousResponse = new ErroneousResponse("001", "tttt"/*arithmeticException.getMessage()*/);
+        ErroneousResponse erroneousResponse = new ErroneousResponse("001", arithmeticException.getMessage());
         return new ResponseEntity<>(erroneousResponse, HttpStatus.BAD_REQUEST);
     }
 
