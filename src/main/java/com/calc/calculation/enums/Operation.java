@@ -3,6 +3,8 @@ package com.calc.calculation.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 @AllArgsConstructor
 public enum Operation {
@@ -14,11 +16,9 @@ public enum Operation {
     private final char operation;
 
     public static Operation getByValue(char value) {
-        for(Operation operation : values()) {
-            if (value == operation.getOperation()) {
-                return operation;
-            }
-        }
-        return null;
+        return Arrays.stream(values())
+                .filter(op -> value == op.getOperation())
+                .findFirst()
+                .orElse(null);
     }
 }
