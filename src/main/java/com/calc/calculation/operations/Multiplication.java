@@ -14,11 +14,6 @@ public class Multiplication implements Calculate {
     }
 
     @Override
-    public long doAction(Value value, LongBinaryOperator longBinaryOperator) {
-        return value.getValueA() * value.getValueB();
-    }
-
-    @Override
     public LongBinaryOperator getLambda(Value value) {
         return (x,y)->value.getValueA() * value.getValueB();
     }
